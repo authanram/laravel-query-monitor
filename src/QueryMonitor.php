@@ -41,7 +41,7 @@ class QueryMonitor
     {
         DB::listen(fn (QueryExecuted $query) => $this->queries[] = [
             'sql' => $query->sql,
-            'time' => $query->time,
+            'time' => $query->time*10,
         ]);
 
         app()->terminating(function () {
@@ -60,10 +60,7 @@ class QueryMonitor
         (new SocketServer($this->uri))
             ->on('connection', function (ConnectionInterface $connection) use($command) {
                 $connection->on('data', function ($data) use ($connection, $command) {
-                    $command->line("\033\143\e[3J");
-
                     $command->printQueries(json_decode($data, true, 512, JSON_THROW_ON_ERROR));
-
                     $connection->close();
                 });
             });

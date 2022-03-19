@@ -18,6 +18,8 @@ class QueryMonitorCommand extends Command
 
         $service->run($this);
 
+        $this->clearScreen();
+
         $this->line('<fg=green>Query Monitor</> [Listening on: ' . $service->getUri().']');
 
         return self::SUCCESS;
@@ -25,6 +27,8 @@ class QueryMonitorCommand extends Command
 
     public function printQueries(array $queries): void
     {
+        $this->clearScreen();
+
         $duplicates = 0;
 
         $time = 0;
@@ -34,7 +38,7 @@ class QueryMonitorCommand extends Command
         foreach ($queries as $query) {
             $querySql = $query['sql'];
 
-            $queryTime = $query['time']*100;
+            $queryTime = $query['time'];
 
             if (in_array($querySql, $sql, true)) {
                 $line = "<fg=red>SQL: $querySql [DUPLICATE]</>";
@@ -60,5 +64,10 @@ class QueryMonitorCommand extends Command
         $this->warn("Time: $time ms");
 
         $this->line("<fg=".($duplicates ? 'red' : 'default').">Duplicates: $duplicates</>");
+    }
+
+    protected function clearScreen(): void
+    {
+        $this->line("\033\143\e[3J");
     }
 }
