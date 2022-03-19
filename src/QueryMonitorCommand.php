@@ -34,6 +34,8 @@ class QueryMonitorCommand extends Command
         foreach ($queries as $query) {
             $querySql = $query['sql'];
 
+            $queryTime = $query['time']*100;
+
             if (in_array($querySql, $sql, true)) {
                 $line = "<fg=red>SQL: $querySql [DUPLICATE]</>";
 
@@ -43,8 +45,6 @@ class QueryMonitorCommand extends Command
             }
 
             $this->line($line);
-
-            $queryTime = $query['time']*100;
 
             $this->warn("Time: $queryTime ms\n");
 

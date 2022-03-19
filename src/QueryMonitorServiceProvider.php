@@ -17,16 +17,16 @@ class QueryMonitorServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/query-monitor.php', 'query-monitor');
 
-        $this->bootQueryMonitor();
-
-        $this->bootRunningInConsole();
-    }
-
-    protected function bootQueryMonitor(): void
-    {
         /** @var QueryMonitor $service */
         $service = $this->app[QueryMonitor::class];
 
+        $this->bootQueryMonitor($service);
+
+        $this->bootRunningInConsole($service);
+    }
+
+    protected function bootQueryMonitor(QueryMonitor $service): void
+    {
         if ($service->isEnabled() === false) {
             return;
         }
@@ -34,9 +34,9 @@ class QueryMonitorServiceProvider extends ServiceProvider
         $service->listen();
     }
 
-    protected function bootRunningInConsole(): void
+    protected function bootRunningInConsole(QueryMonitor $service): void
     {
-        if ($this->app->runningInConsole() === false) {
+        if (($service->isEnabled() && $this->app->runningInConsole()) === false) {
             return;
         }
 

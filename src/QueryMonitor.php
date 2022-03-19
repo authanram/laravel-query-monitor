@@ -39,10 +39,6 @@ class QueryMonitor
 
     public function listen(): void
     {
-        if ($this->isEnabled === false) {
-            return;
-        }
-
         DB::listen(fn (QueryExecuted $query) => $this->queries[] = [
             'sql' => $query->sql,
             'time' => $query->time,
@@ -61,10 +57,6 @@ class QueryMonitor
 
     public function run(QueryMonitorCommand $command): void
     {
-        if ($this->isEnabled === false) {
-            return;
-        }
-
         (new SocketServer($this->uri))
             ->on('connection', function (ConnectionInterface $connection) use($command) {
                 $connection->on('data', function ($data) use ($connection, $command) {
@@ -79,10 +71,6 @@ class QueryMonitor
 
     public function send(array $data): void
     {
-        if ($this->isEnabled === false) {
-            return;
-        }
-
         (new Connector())->connect($this->uri)
             ->then(function (ConnectionInterface $connection) use ($data) {
                 $connection->write(json_encode($data, JSON_THROW_ON_ERROR));
