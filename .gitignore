@@ -1,0 +1,10 @@
+/.idea
+/.vscode
+/local.var
+/vendor
+.DS_Store
+.env
+.phpunit.result.cache
+composer.lock
+package-lock.json
+phpunit.xml

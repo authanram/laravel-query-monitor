@@ -1,0 +1,59 @@
+{
+    "name": "authanram/laravel-query-monitor",
+    "type": "package",
+    "description": "Laravel Query Monitor",
+    "keywords": [
+        "authanram",
+        "laravel",
+        "query-monitor"
+    ],
+    "license": "MIT",
+    "homepage": "https://authanram.com",
+    "require": {
+        "php": "^8.0",
+        "laravel/framework": "^8.0|^9.0",
+        "react/socket": "^1.10"
+    },
+    "require-dev": {
+        "nunomaduro/phpinsights": "^2.0",
+        "orchestra/testbench": "^7.0",
+        "pestphp/pest": "^1.20",
+        "pestphp/pest-plugin-mock": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Authanram\\QueryMonitor\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Authanram\\QueryMonitor\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Authanram\\QueryMonitor\\QueryMonitorServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "coverage": "@php ./vendor/bin/pest --coverage",
+        "coverage:setup": "pecl install pcov",
+        "fix": "export PHPINSIGHTS_ENV= && $PHP_INTERPRETER ./vendor/bin/phpinsights --fix",
+        "insights": "export PHPINSIGHTS_ENV= && $PHP_INTERPRETER ./vendor/bin/phpinsights",
+        "test": "@php ./vendor/bin/pest",
+        "test:insights": "export PHPINSIGHTS_ENV=testing && $PHP_INTERPRETER ./vendor/bin/phpinsights analyse tests"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
