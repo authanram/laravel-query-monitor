@@ -18,7 +18,7 @@ class QueryMonitorServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/query-monitor.php', 'query-monitor');
 
         /** @var QueryMonitor $service */
-        $service = $this->app[QueryMonitor::class];
+        $service = resolve(QueryMonitor::class);
 
         $this->bootQueryMonitor($service);
 
